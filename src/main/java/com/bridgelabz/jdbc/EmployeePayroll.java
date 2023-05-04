@@ -1,6 +1,5 @@
 package com.bridgelabz.jdbc;
 
-import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -27,8 +26,12 @@ public class EmployeePayroll extends BaseClass {
 	public void updateEmployeePayrollData() throws SQLException {
 		connection = setUpDatabase();
 		String updateQuery = "update employee_payroll set salary = 3000000.00 WHERE name = 'Terisaa'";
-		PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
-		preparedStatement.executeUpdate();
-		System.out.println("Record updated successfully");
+		Statement statement = connection.createStatement();
+		int rowsUpdated = statement.executeUpdate(updateQuery);
+		if (rowsUpdated > 0) {
+			System.out.println("Record updated successfully");
+		} else {
+			throw new SQLException("Failed to update record");
+		}
 	}
 }
