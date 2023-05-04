@@ -26,7 +26,7 @@ public class EmployeePayroll extends BaseClass {
 
 	public void updateEmployeePayrollData() throws SQLException {
 		connection = setUpDatabase();
-		String updateQuery = "update employee_payroll set salary = 3000000.00 WHERE name = 'Terisaa'";
+		String updateQuery = "update employee_payroll set salary = 3000000.00 WHERE name = 'Terrisa'";
 		PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
 		preparedStatement.executeUpdate();
 		System.out.println("Record updated successfully");
