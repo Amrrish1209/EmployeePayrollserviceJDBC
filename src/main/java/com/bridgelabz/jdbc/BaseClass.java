@@ -1,43 +1,37 @@
-package com.bridgelabz.jdbc;
-
-import java.sql.Driver;
-import java.sql.DriverManager;
-import java.sql.SQLException;
-import java.time.LocalDate;
-import java.util.Enumeration;
-import java.util.Scanner;
 import java.sql.Connection;
+import java.sql.Date;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 public class BaseClass {
 
 	public static Connection connection;
+	private static Map<String, PreparedStatement> preparedStatementCache = new HashMap<>();
 
 	public static void main(String[] args) throws SQLException {
+		EmployeePayroll employeePayroll = EmployeePayroll.getInstance();
+		Date startDate = Date.valueOf("2023-01-01");
+		Date endDate = Date.valueOf("2023-12-31");
+		List<EmployeePayrollData> employeePayrollDataList = employeePayroll
+				.retrieveEmployeesByJoiningDateRange(startDate, endDate);
+		for (EmployeePayrollData employeePayrollData : employeePayrollDataList) {
+			System.out.println(employeePayrollData);
+		}
 
-		setUpDatabase();
-		listOfDrivers();
-		EmployeePayroll employeePayroll = new EmployeePayroll();
-		/*
-		 * employeePayroll.retrieveEmployeePayrollData();
-		 * employeePayroll.updateEmployeePayrollData();
-		 * employeePayroll.retrieveEmployeePayrollData();
-		 */
-		// Get the date range from the user
-		Scanner scanner = new Scanner(System.in);
-		System.out.print("Enter start date (YYYY-MM-DD): ");
-		String startDateStr = scanner.nextLine();
-		LocalDate startDate = LocalDate.parse(startDateStr);
-
-		System.out.print("Enter end date (YYYY-MM-DD): ");
-		String endDateStr = scanner.nextLine();
-		LocalDate endDate = LocalDate.parse(endDateStr);
-
-		// Retrieve employees within the specified date range
-		employeePayroll.retrieveEmployeePayrollData(startDate, endDate);
+		employeePayroll.updateEmployeePayrollData("Terrisa", 3000000.00);
+		employeePayrollDataList = employeePayroll.retrieveEmployeePayrollData();
+		for (EmployeePayrollData employeePayrollData : employeePayrollDataList) {
+			System.out.println(employeePayrollData);
+		}
 	}
 
 	public static Connection setUpDatabase() {
-
 		String jdbcURL = "jdbc:mysql://localhost:3306/payroll_service";
 		String username = "root";
 		String password = "Pavilion@1209";
@@ -59,11 +53,13 @@ public class BaseClass {
 		return connection;
 	}
 
-	public static void listOfDrivers() {
-		Enumeration<Driver> enumeration = DriverManager.getDrivers();
-		while (enumeration.hasMoreElements()) {
-			Driver driver = (Driver) enumeration.nextElement();
-			System.out.println("  " + driver.getClass().getName());
+	public static PreparedStatement getPreparedStatement(String query) throws SQLException {
+		if (preparedStatementCache.containsKey(query)) {
+			return preparedStatementCache.get(query);
+		} else {
+			PreparedStatement preparedStatement = connection.prepareStatement(query);
+			preparedStatementCache.put(query, preparedStatement);
+			return preparedStatement;
 		}
 	}
 }
