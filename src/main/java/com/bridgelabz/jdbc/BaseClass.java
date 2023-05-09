@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 import java.sql.Connection;
 import java.sql.Date;
 import java.sql.DriverManager;
@@ -8,6 +9,20 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+=======
+package com.bridgelabz.jdbc;
+
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+>>>>>>> master
 
 public class BaseClass {
 
@@ -16,10 +31,14 @@ public class BaseClass {
 
 	public static void main(String[] args) throws SQLException {
 		EmployeePayroll employeePayroll = EmployeePayroll.getInstance();
+<<<<<<< HEAD
 		Date startDate = Date.valueOf("2023-01-01");
 		Date endDate = Date.valueOf("2023-12-31");
 		List<EmployeePayrollData> employeePayrollDataList = employeePayroll
 				.retrieveEmployeesByJoiningDateRange(startDate, endDate);
+=======
+		List<EmployeePayrollData> employeePayrollDataList = employeePayroll.retrieveEmployeePayrollData();
+>>>>>>> master
 		for (EmployeePayrollData employeePayrollData : employeePayrollDataList) {
 			System.out.println(employeePayrollData);
 		}
@@ -29,6 +48,25 @@ public class BaseClass {
 		for (EmployeePayrollData employeePayrollData : employeePayrollDataList) {
 			System.out.println(employeePayrollData);
 		}
+<<<<<<< HEAD
+=======
+		Scanner scanner = new Scanner(System.in);
+
+		System.out.print("Enter the start date (yyyy-MM-dd): ");
+		String startDateStr = scanner.nextLine();
+		LocalDate startDate = LocalDate.parse(startDateStr, DateTimeFormatter.ISO_DATE);
+
+		System.out.print("Enter the end date (yyyy-MM-dd): ");
+		String endDateStr = scanner.nextLine();
+		LocalDate endDate = LocalDate.parse(endDateStr, DateTimeFormatter.ISO_DATE);
+
+		List<EmployeePayrollData> employeesJoinedInRange = employeePayroll.retrieveEmployeePayrollDataByDate(startDate,
+				endDate);
+		for (EmployeePayrollData employee : employeesJoinedInRange) {
+			System.out.println(employee);
+		}
+
+>>>>>>> master
 	}
 
 	public static Connection setUpDatabase() {
