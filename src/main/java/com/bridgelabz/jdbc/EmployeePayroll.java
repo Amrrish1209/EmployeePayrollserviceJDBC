@@ -124,4 +124,58 @@ public class EmployeePayroll {
 		return employeePayrollDataList;
 	}
 
+	public double calculateSumOfSalaryByGender(String gender) throws SQLException {
+		String query = "SELECT SUM(salary) FROM employee_payroll WHERE gender = ? GROUP BY gender";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, gender);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		if (resultSet.next()) {
+			return resultSet.getDouble(1);
+		}
+		return 0.0;
+	}
+
+	public double calculateAverageSalaryByGender(String gender) throws SQLException {
+		String query = "SELECT AVG(salary) FROM employee_payroll WHERE gender = ? GROUP BY gender";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, gender);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		if (resultSet.next()) {
+			return resultSet.getDouble(1);
+		}
+		return 0.0;
+	}
+
+	public double findMinimumSalaryByGender(String gender) throws SQLException {
+		String query = "SELECT MIN(salary) FROM employee_payroll WHERE gender = ? GROUP BY gender";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, gender);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		if (resultSet.next()) {
+			return resultSet.getDouble(1);
+		}
+		return 0.0;
+	}
+
+	public double findMaximumSalaryByGender(String gender) throws SQLException {
+		String query = "SELECT MAX(salary) FROM employee_payroll WHERE gender = ? GROUP BY gender";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, gender);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		if (resultSet.next()) {
+			return resultSet.getDouble(1);
+		}
+		return 0.0;
+	}
+
+	public int countEmployeesByGender(String gender) throws SQLException {
+		String query = "SELECT COUNT(*) FROM employee_payroll WHERE gender = ? GROUP BY gender";
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
+		preparedStatement.setString(1, gender);
+		ResultSet resultSet = preparedStatement.executeQuery();
+		if (resultSet.next()) {
+			return resultSet.getInt(1);
+		}
+		return 0;
+	}
 }

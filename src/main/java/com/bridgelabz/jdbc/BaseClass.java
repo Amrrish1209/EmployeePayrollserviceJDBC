@@ -44,6 +44,39 @@ public class BaseClass {
 			System.out.println(employee);
 		}
 
+		try {
+			// Calculate sum of salary by gender
+			double sumOfSalaryFemale = employeePayroll.calculateSumOfSalaryByGender("F");
+			double sumOfSalaryMale = employeePayroll.calculateSumOfSalaryByGender("M");
+			System.out.println("Sum of salary for females: " + sumOfSalaryFemale);
+			System.out.println("Sum of salary for males: " + sumOfSalaryMale);
+
+			// Calculate average salary by gender
+			double avgSalaryFemale = employeePayroll.calculateAverageSalaryByGender("F");
+			double avgSalaryMale = employeePayroll.calculateAverageSalaryByGender("M");
+			System.out.println("Average salary for females: " + avgSalaryFemale);
+			System.out.println("Average salary for males: " + avgSalaryMale);
+
+			// Find minimum salary by gender
+			double minSalaryFemale = employeePayroll.findMinimumSalaryByGender("F");
+			double minSalaryMale = employeePayroll.findMinimumSalaryByGender("M");
+			System.out.println("Minimum salary for females: " + minSalaryFemale);
+			System.out.println("Minimum salary for males: " + minSalaryMale);
+
+			// Find maximum salary by gender
+			double maxSalaryFemale = employeePayroll.findMaximumSalaryByGender("F");
+			double maxSalaryMale = employeePayroll.findMaximumSalaryByGender("M");
+			System.out.println("Maximum salary for females: " + maxSalaryFemale);
+			System.out.println("Maximum salary for males: " + maxSalaryMale);
+
+			// Count employees by gender
+			int countFemaleEmployees = employeePayroll.countEmployeesByGender("F");
+			int countMaleEmployees = employeePayroll.countEmployeesByGender("M");
+			System.out.println("Number of female employees: " + countFemaleEmployees);
+			System.out.println("Number of male employees: " + countMaleEmployees);
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public static Connection setUpDatabase() {
