@@ -3,7 +3,9 @@ package com.bridgelabz.jdbc;
 import java.sql.Driver;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.time.LocalDate;
 import java.util.Enumeration;
+import java.util.Scanner;
 import java.sql.Connection;
 
 public class BaseClass {
@@ -15,9 +17,23 @@ public class BaseClass {
 		setUpDatabase();
 		listOfDrivers();
 		EmployeePayroll employeePayroll = new EmployeePayroll();
-		employeePayroll.retrieveEmployeePayrollData();
-		employeePayroll.updateEmployeePayrollData();
-		employeePayroll.retrieveEmployeePayrollData();
+		/*
+		 * employeePayroll.retrieveEmployeePayrollData();
+		 * employeePayroll.updateEmployeePayrollData();
+		 * employeePayroll.retrieveEmployeePayrollData();
+		 */
+		// Get the date range from the user
+		Scanner scanner = new Scanner(System.in);
+		System.out.print("Enter start date (YYYY-MM-DD): ");
+		String startDateStr = scanner.nextLine();
+		LocalDate startDate = LocalDate.parse(startDateStr);
+
+		System.out.print("Enter end date (YYYY-MM-DD): ");
+		String endDateStr = scanner.nextLine();
+		LocalDate endDate = LocalDate.parse(endDateStr);
+
+		// Retrieve employees within the specified date range
+		employeePayroll.retrieveEmployeePayrollData(startDate, endDate);
 	}
 
 	public static Connection setUpDatabase() {
