@@ -17,11 +17,8 @@ public class BaseClass {
 		setUpDatabase();
 		listOfDrivers();
 		EmployeePayroll employeePayroll = new EmployeePayroll();
-		/*
-		 * employeePayroll.retrieveEmployeePayrollData();
-		 * employeePayroll.updateEmployeePayrollData();
-		 * employeePayroll.retrieveEmployeePayrollData();
-		 */
+
+		employeePayroll.updateEmployeePayrollData();
 		// Get the date range from the user
 		Scanner scanner = new Scanner(System.in);
 		System.out.print("Enter start date (YYYY-MM-DD): ");
@@ -34,6 +31,7 @@ public class BaseClass {
 
 		// Retrieve employees within the specified date range
 		employeePayroll.retrieveEmployeePayrollData(startDate, endDate);
+		employeePayroll.analyzeEmployeeDataByGender();
 	}
 
 	public static Connection setUpDatabase() {
