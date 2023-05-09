@@ -25,29 +25,55 @@ public class EmployeePayroll {
 	public List<EmployeePayrollData> retrieveEmployeePayrollData() throws SQLException {
 		List<EmployeePayrollData> employeePayrollDataList = new ArrayList<>();
 		String query = "SELECT * FROM employee_payroll";
-		PreparedStatement preparedStatement = BaseClass.getPreparedStatement(query);
+		PreparedStatement preparedStatement = connection.prepareStatement(query);
 		ResultSet resultSet = preparedStatement.executeQuery();
 
 		while (resultSet.next()) {
-			int id = resultSet.getInt(1);
-			String name = resultSet.getString(2);
-			String gender = resultSet.getString(3);
-			double salary = resultSet.getDouble(4);
-			String date = resultSet.getString(5);
+			int id = resultSet.getInt("id");
+			String name = resultSet.getString("name");
+			String gender = resultSet.getString("gender");
+			double salary = resultSet.getDouble("salary");
+			String start_date = resultSet.getString("start_date");
+			String phone = resultSet.getString("phone");
+			String address = resultSet.getString("address");
+			String department = resultSet.getString("department");
+			double basic_pay = resultSet.getInt("basic_pay");
+			double deductions = resultSet.getInt("deductions");
+			double taxable_pay = resultSet.getInt("taxable_pay");
+			double income_tax = resultSet.getInt("income_tax");
+			double net_pay = resultSet.getInt("net_pay");
 
-			EmployeePayrollData employeePayrollData = new EmployeePayrollData(id, name, gender, salary, date);
+			EmployeePayrollData employeePayrollData = new EmployeePayrollData();
+			employeePayrollData.setId(id);
+			employeePayrollData.setName(name);
+			employeePayrollData.setGender(gender);
+			employeePayrollData.setSalary(salary);
+			employeePayrollData.setDate(start_date);
+			employeePayrollData.setPhone(phone);
+			employeePayrollData.setAddress(address);
+			employeePayrollData.setDepartment(department);
+			employeePayrollData.setBasic_pay(basic_pay);
+			employeePayrollData.setDeduction(deductions);
+			employeePayrollData.setTaxable_pay(taxable_pay);
+			employeePayrollData.setIncome_tax(income_tax);
+			employeePayrollData.setNet_pay(net_pay);
+
 			employeePayrollDataList.add(employeePayrollData);
 		}
 
 		return employeePayrollDataList;
 	}
 
-	public void updateEmployeePayrollData(String name, double salary) throws SQLException {
-		String updateQuery = "UPDATE employee_payroll SET salary = ? WHERE name = ?";
-		PreparedStatement preparedStatement = BaseClass.getPreparedStatement(updateQuery);
-		preparedStatement.setDouble(1, salary);
+	public void updateEmployeePayrollData(String name, double basic_pay) throws SQLException {
+		String updateQuery = "UPDATE employee_payroll SET basic_pay = ? WHERE name = ?";
+		PreparedStatement preparedStatement = connection.prepareStatement(updateQuery);
+		preparedStatement.setFloat(1, (float) basic_pay);
 		preparedStatement.setString(2, name);
-		preparedStatement.executeUpdate();
-		System.out.println("Record updated successfully");
+		int rowsAffected = preparedStatement.executeUpdate();
+		if (rowsAffected > 0) {
+			System.out.println("Record updated successfully");
+		} else {
+			System.out.println("No records found for the given name");
+		}
 	}
 }
