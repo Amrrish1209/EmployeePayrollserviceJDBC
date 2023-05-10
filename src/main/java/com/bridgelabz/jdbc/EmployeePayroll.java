@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class EmployeePayroll {
 	private static EmployeePayroll instance;
@@ -81,6 +82,7 @@ public class EmployeePayroll {
 
 	public List<EmployeePayrollData> retrieveEmployeePayrollDataByDate(LocalDate startDate, LocalDate endDate)
 			throws SQLException {
+		Connection connection = BaseClass.setUpDatabase();
 		List<EmployeePayrollData> employeePayrollDataList = new ArrayList<>();
 		String query = "SELECT * FROM employee_payroll WHERE start_date BETWEEN ? AND ?";
 		PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -120,6 +122,10 @@ public class EmployeePayroll {
 
 			employeePayrollDataList.add(employeePayrollData);
 		}
+
+		resultSet.close();
+		preparedStatement.close();
+		connection.close();
 
 		return employeePayrollDataList;
 	}
@@ -177,5 +183,72 @@ public class EmployeePayroll {
 			return resultSet.getInt(1);
 		}
 		return 0;
+	}
+
+	public void insertEmployeePayrollData() throws SQLException {
+		// Create a Scanner object to read user input
+		Scanner scanner = new Scanner(System.in);
+
+		String insertQuery = "INSERT INTO employee_payroll (name, gender, salary, start_date,phone,address,department,basic_pay,deductions,taxable_pay,income_tax,net_pay) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+		PreparedStatement preparedStatement = connection.prepareStatement(insertQuery);
+
+		// Get employee details from the user
+		System.out.print("Enter employee name: ");
+		String name = scanner.nextLine();
+		preparedStatement.setString(1, name);
+
+		System.out.print("Enter employee gender: ");
+		String gender = scanner.nextLine();
+		preparedStatement.setString(2, gender);
+
+		System.out.print("Enter employee salary: ");
+		double salary = scanner.nextDouble();
+		preparedStatement.setDouble(3, salary);
+
+		System.out.print("Enter employee start date (yyyy-MM-dd): ");
+		String startDate = scanner.next();
+		preparedStatement.setString(4, startDate);
+
+		scanner.nextLine();
+
+		System.out.println("Enter employee phone: ");
+		String phone = scanner.nextLine();
+		preparedStatement.setString(5, phone);
+
+		System.out.println("Enter employee address: ");
+		String address = scanner.nextLine();
+		preparedStatement.setString(6, address);
+
+		System.out.println("Enter employee department: ");
+		String department = scanner.nextLine();
+		preparedStatement.setString(7, department);
+
+		System.out.println("Enter employee basic_pay: ");
+		double basic_pay = scanner.nextDouble();
+		preparedStatement.setDouble(8, basic_pay);
+
+		System.out.println("Enter employee deductions: ");
+		double deductions = scanner.nextDouble();
+		preparedStatement.setDouble(9, deductions);
+
+		System.out.println("Enter employee taxable_pay: ");
+		double taxable_pay = scanner.nextDouble();
+		preparedStatement.setDouble(10, taxable_pay);
+
+		System.out.println("Enter employee income_tax: ");
+		double income_tax = scanner.nextDouble();
+		preparedStatement.setDouble(11, income_tax);
+
+		System.out.println("Enter employee net_pay: ");
+		double net_pay = scanner.nextDouble();
+		preparedStatement.setDouble(12, net_pay);
+
+		// Execute the prepared statement
+		preparedStatement.execute();
+
+		System.out.println("Record added successfully");
+
+		// Close the Scanner
+		scanner.close();
 	}
 }

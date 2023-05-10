@@ -18,12 +18,15 @@ public class BaseClass {
 
 	public static void main(String[] args) throws SQLException {
 		EmployeePayroll employeePayroll = EmployeePayroll.getInstance();
+
+		employeePayroll.insertEmployeePayrollData();
+
 		List<EmployeePayrollData> employeePayrollDataList = employeePayroll.retrieveEmployeePayrollData();
 		for (EmployeePayrollData employeePayrollData : employeePayrollDataList) {
 			System.out.println(employeePayrollData);
 		}
 
-		employeePayroll.updateEmployeePayrollData("Terrisa", 3000000.00);
+		employeePayroll.updateEmployeePayrollData("Terisaa", 3000000.00);
 		employeePayrollDataList = employeePayroll.retrieveEmployeePayrollData();
 		for (EmployeePayrollData employeePayrollData : employeePayrollDataList) {
 			System.out.println(employeePayrollData);
