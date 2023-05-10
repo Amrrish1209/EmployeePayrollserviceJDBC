@@ -82,7 +82,6 @@ public class EmployeePayroll {
 
 	public List<EmployeePayrollData> retrieveEmployeePayrollDataByDate(LocalDate startDate, LocalDate endDate)
 			throws SQLException {
-		Connection connection = BaseClass.setUpDatabase();
 		List<EmployeePayrollData> employeePayrollDataList = new ArrayList<>();
 		String query = "SELECT * FROM employee_payroll WHERE start_date BETWEEN ? AND ?";
 		PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -125,7 +124,6 @@ public class EmployeePayroll {
 
 		resultSet.close();
 		preparedStatement.close();
-		connection.close();
 
 		return employeePayrollDataList;
 	}
@@ -223,32 +221,22 @@ public class EmployeePayroll {
 		String department = scanner.nextLine();
 		preparedStatement.setString(7, department);
 
-		System.out.println("Enter employee basic_pay: ");
-		double basic_pay = scanner.nextDouble();
+		// Calculate derived fields
+		double basic_pay = salary;
+		double deductions = 0.2 * salary;
+		double taxable_pay = salary - deductions;
+		double income_tax = 0.1 * taxable_pay;
+		double net_pay = salary - income_tax;
+
 		preparedStatement.setDouble(8, basic_pay);
-
-		System.out.println("Enter employee deductions: ");
-		double deductions = scanner.nextDouble();
 		preparedStatement.setDouble(9, deductions);
-
-		System.out.println("Enter employee taxable_pay: ");
-		double taxable_pay = scanner.nextDouble();
 		preparedStatement.setDouble(10, taxable_pay);
-
-		System.out.println("Enter employee income_tax: ");
-		double income_tax = scanner.nextDouble();
 		preparedStatement.setDouble(11, income_tax);
-
-		System.out.println("Enter employee net_pay: ");
-		double net_pay = scanner.nextDouble();
 		preparedStatement.setDouble(12, net_pay);
 
-		// Execute the prepared statement
 		preparedStatement.execute();
-
 		System.out.println("Record added successfully");
 
-		// Close the Scanner
 		scanner.close();
 	}
 }

@@ -19,8 +19,6 @@ public class BaseClass {
 	public static void main(String[] args) throws SQLException {
 		EmployeePayroll employeePayroll = EmployeePayroll.getInstance();
 
-		employeePayroll.insertEmployeePayrollData();
-
 		List<EmployeePayrollData> employeePayrollDataList = employeePayroll.retrieveEmployeePayrollData();
 		for (EmployeePayrollData employeePayrollData : employeePayrollDataList) {
 			System.out.println(employeePayrollData);
@@ -45,6 +43,11 @@ public class BaseClass {
 				endDate);
 		for (EmployeePayrollData employee : employeesJoinedInRange) {
 			System.out.println(employee);
+		}
+
+		employeePayroll.insertEmployeePayrollData();
+		for (EmployeePayrollData employeePayrollData : employeePayrollDataList) {
+			System.out.println(employeePayrollData);
 		}
 
 		try {
